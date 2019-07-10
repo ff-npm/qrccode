@@ -1,7 +1,7 @@
 
 {
-  "name": "react-native-qrcode",
-  "version": "1.0.0",
+  "name": "react-native-ff-qrcode",
+  "version": "1.0.1",
   "description": "this is a qrcode tools",
   "main": "index.js",
   "scripts": {
