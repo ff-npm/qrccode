@@ -9,7 +9,7 @@
 #import "DYAVCaptureVideoPreviewViewManager.h"
 #import <React/RCTBridge.h>
 #import <React/RCTEventDispatcher.h>
-#import "DYQRCode.framework/Headers/DYQRCodeAbility.h"
+#import "DYQRCodeAbility.h"
 
 @interface DYAVCaptureVideoPreviewViewManager ()
 
