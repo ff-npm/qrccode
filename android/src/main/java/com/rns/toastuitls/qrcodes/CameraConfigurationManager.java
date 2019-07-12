@@ -1,0 +1,212 @@
+package com.rns.toastuitls.qrcodes;
+
+import android.content.Context;
+import android.graphics.Point;
+import android.hardware.Camera;
+import android.view.Display;
+import android.view.Surface;
+import android.view.WindowManager;
+
+import java.util.Collection;
+import java.util.List;
+
+/**
+ * Name:
+ * <p>
+ * 2019/7/12 by StoneWay
+ * <p>
+ * Outline:
+ */
+final class CameraConfigurationManager {
+    private final Context mContext;
+    private Point mCameraResolution;
+    private Point mPreviewResolution;
+
+    CameraConfigurationManager(Context context) {
+        mContext = context;
+    }
+
+    void initFromCameraParameters(Camera camera) {
+        Point screenResolution = WstQRCodeUtils.getScreenResolution(mContext);
+        Point screenResolutionForCamera = new Point();
+        screenResolutionForCamera.x = screenResolution.x;
+        screenResolutionForCamera.y = screenResolution.y;
+
+        if (WstQRCodeUtils.isPortrait(mContext)) {
+            screenResolutionForCamera.x = screenResolution.y;
+            screenResolutionForCamera.y = screenResolution.x;
+        }
+
+        mPreviewResolution = getPreviewResolution(camera.getParameters(), screenResolutionForCamera);
+
+        if (WstQRCodeUtils.isPortrait(mContext)) {
+            mCameraResolution = new Point(mPreviewResolution.y, mPreviewResolution.x);
+        } else {
+            mCameraResolution = mPreviewResolution;
+        }
+    }
+
+    private static boolean autoFocusAble(Camera camera) {
+        List<String> supportedFocusModes = camera.getParameters().getSupportedFocusModes();
+        String focusMode = findSettableValue(supportedFocusModes, Camera.Parameters.FOCUS_MODE_AUTO);
+        return focusMode != null;
+    }
+
+    Point getCameraResolution() {
+        return mCameraResolution;
+    }
+
+    void setDesiredCameraParameters(Camera camera) {
+        Camera.Parameters parameters = camera.getParameters();
+        parameters.setPreviewSize(mPreviewResolution.x, mPreviewResolution.y);
+
+        // https://github.com/googlesamples/android-vision/blob/master/visionSamples/barcode-reader/app/src/main/java/com/google/android/gms/samples/vision/barcodereader/ui/camera/CameraSource.java
+        int[] previewFpsRange = selectPreviewFpsRange(camera, 60.0f);
+        if (previewFpsRange != null) {
+            parameters.setPreviewFpsRange(
+                    previewFpsRange[Camera.Parameters.PREVIEW_FPS_MIN_INDEX],
+                    previewFpsRange[Camera.Parameters.PREVIEW_FPS_MAX_INDEX]);
+        }
+
+        camera.setDisplayOrientation(getDisplayOrientation());
+        camera.setParameters(parameters);
+    }
+
+    /**
+     * 在给定每秒所需帧数的情况下，选择最合适的每秒预览帧数范围。
+     *
+     * @param camera            从中选择每秒帧的照相机
+     * @param desiredPreviewFps 照相机预览帧每秒所需的帧数
+     * @return 选定的每秒预览帧数范围
+     */
+    private int[] selectPreviewFpsRange(Camera camera, float desiredPreviewFps) {
+        // cameraAPI使用的是1000倍的整数，而不是浮点帧率
+        int desiredPreviewFpsScaled = (int) (desiredPreviewFps * 1000.0f);
+
+        // 选择最佳范围的方法是最小化所需值与范围上下限之间的差异之和。
+        // 这可以选择所需值超出的范围，但这通常是首选的。
+        // 例如，如果所需的帧速率为29.97，则范围（30，30）可能比范围（15，30）更可取。
+        int[] selectedFpsRange = null;
+        int minDiff = Integer.MAX_VALUE;
+        List<int[]> previewFpsRangeList = camera.getParameters().getSupportedPreviewFpsRange();
+        for (int[] range : previewFpsRangeList) {
+            int deltaMin = desiredPreviewFpsScaled - range[Camera.Parameters.PREVIEW_FPS_MIN_INDEX];
+            int deltaMax = desiredPreviewFpsScaled - range[Camera.Parameters.PREVIEW_FPS_MAX_INDEX];
+            int diff = Math.abs(deltaMin) + Math.abs(deltaMax);
+            if (diff < minDiff) {
+                selectedFpsRange = range;
+                minDiff = diff;
+            }
+        }
+        return selectedFpsRange;
+    }
+
+    void openFlashlight(Camera camera) {
+        doSetTorch(camera, true);
+    }
+
+    void closeFlashlight(Camera camera) {
+        doSetTorch(camera, false);
+    }
+
+    private void doSetTorch(Camera camera, boolean newSetting) {
+        Camera.Parameters parameters = camera.getParameters();
+        String flashMode;
+        /** 是否支持闪光灯 */
+        if (newSetting) {
+            flashMode = findSettableValue(parameters.getSupportedFlashModes(), Camera.Parameters.FLASH_MODE_TORCH, Camera.Parameters.FLASH_MODE_ON);
+        } else {
+            flashMode = findSettableValue(parameters.getSupportedFlashModes(), Camera.Parameters.FLASH_MODE_OFF);
+        }
+        if (flashMode != null) {
+            parameters.setFlashMode(flashMode);
+        }
+        camera.setParameters(parameters);
+    }
+
+    private static String findSettableValue(Collection<String> supportedValues, String... desiredValues) {
+        String result = null;
+        if (supportedValues != null) {
+            for (String desiredValue : desiredValues) {
+                if (supportedValues.contains(desiredValue)) {
+                    result = desiredValue;
+                    break;
+                }
+            }
+        }
+        return result;
+    }
+
+    private int getDisplayOrientation() {
+        Camera.CameraInfo info = new Camera.CameraInfo();
+        Camera.getCameraInfo(Camera.CameraInfo.CAMERA_FACING_BACK, info);
+        WindowManager wm = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
+        if (wm == null) {
+            return 0;
+        }
+        Display display = wm.getDefaultDisplay();
+
+        int rotation = display.getRotation();
+        int degrees = 0;
+        switch (rotation) {
+            case Surface.ROTATION_0:
+                degrees = 0;
+                break;
+            case Surface.ROTATION_90:
+                degrees = 90;
+                break;
+            case Surface.ROTATION_180:
+                degrees = 180;
+                break;
+            case Surface.ROTATION_270:
+                degrees = 270;
+                break;
+        }
+
+        int result;
+        if (info.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
+            result = (info.orientation + degrees) % 360;
+            result = (360 - result) % 360;
+        } else {
+            result = (info.orientation - degrees + 360) % 360;
+        }
+        return result;
+    }
+
+    private static Point getPreviewResolution(Camera.Parameters parameters, Point screenResolution) {
+        Point previewResolution =
+                findBestPreviewSizeValue(parameters.getSupportedPreviewSizes(), screenResolution);
+        if (previewResolution == null) {
+            previewResolution = new Point((screenResolution.x >> 3) << 3, (screenResolution.y >> 3) << 3);
+        }
+        return previewResolution;
+    }
+
+    private static Point findBestPreviewSizeValue(List<Camera.Size> supportSizeList, Point screenResolution) {
+        int bestX = 0;
+        int bestY = 0;
+        int diff = Integer.MAX_VALUE;
+        for (Camera.Size previewSize : supportSizeList) {
+
+            int newX = previewSize.width;
+            int newY = previewSize.height;
+
+            int newDiff = Math.abs(newX - screenResolution.x) + Math.abs(newY - screenResolution.y);
+            if (newDiff == 0) {
+                bestX = newX;
+                bestY = newY;
+                break;
+            } else if (newDiff < diff) {
+                bestX = newX;
+                bestY = newY;
+                diff = newDiff;
+            }
+
+        }
+
+        if (bestX > 0 && bestY > 0) {
+            return new Point(bestX, bestY);
+        }
+        return null;
+    }
+}
