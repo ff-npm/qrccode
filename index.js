@@ -1,10 +1,9 @@
 import QrcodeView from "./QrcodeView";
 import { NativeModules } from 'react-native';
-
-const { QRCodeModule } = NativeModules;
-
-export default QRCodeModule;
+const { RNQRCode,DYAVCaptureVideoPreviewView } = NativeModules;
+RNQRCode.initQrCodeView = DYAVCaptureVideoPreviewView.QrCodeView;
+export default RNQRCode;
 module.exports = {
     QrcodeView,
-    QRCodeModule
+    RNQRCode,
 }

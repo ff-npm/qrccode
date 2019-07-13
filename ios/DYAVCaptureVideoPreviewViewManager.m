@@ -19,7 +19,7 @@
 
 @implementation DYAVCaptureVideoPreviewViewManager
 
-RCT_EXPORT_MODULE(DYAVCaptureVideoPreviewView)
+RCT_EXPORT_MODULE(QrCodeView)
 
 RCT_EXPORT_VIEW_PROPERTY(scanImageName, NSString);
 RCT_EXPORT_VIEW_PROPERTY(borderColor, UIColor);

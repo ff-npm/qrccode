@@ -12,7 +12,7 @@ let {
   requireNativeComponent,
 } = ReactNative;
 
-let FFQrcodeView = requireNativeComponent('DYAVCaptureVideoPreviewView', QrcodeView);
+let FFQrcodeView = requireNativeComponent('QrCodeView', QrcodeView);
 
 export default class QrcodeView extends Component {
     constructor(props) {
