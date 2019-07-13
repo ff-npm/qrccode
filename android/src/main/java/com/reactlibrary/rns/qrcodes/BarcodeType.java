@@ -1,4 +1,4 @@
-package com.rns.toastuitls.qrcodes;
+package com.reactlibrary.rns.qrcodes;
 
 /**
  * Name:識別的格式枚舉

@@ -1,4 +1,4 @@
-package com.rns.toastuitls;
+package com.reactlibrary.rns.qrcode;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.rns.toastuitls.test", appContext.getPackageName());
+        assertEquals("com.reactlibrary.rns.toastuitls.test", appContext.getPackageName());
     }
 }

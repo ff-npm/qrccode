@@ -1,4 +1,4 @@
-package com.rns.toastuitls;
+package com.reactlibrary.rns.qrcode;
 
 import org.junit.Test;
 

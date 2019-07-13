@@ -1,4 +1,4 @@
-package com.rns.toastuitls.zxings;
+package com.reactlibrary.rns.zxings;
 
 import android.graphics.Bitmap;
 
@@ -10,7 +10,7 @@ import com.google.zxing.RGBLuminanceSource;
 import com.google.zxing.Result;
 import com.google.zxing.common.GlobalHistogramBinarizer;
 import com.google.zxing.common.HybridBinarizer;
-import com.rns.toastuitls.qrcodes.WstQRCodeUtils;
+import com.reactlibrary.rns.qrcodes.WstQRCodeUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;

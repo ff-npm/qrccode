@@ -1,4 +1,5 @@
-package com.rns.toastuitls.zxings;
+package com.reactlibrary.rns.zxings;
+
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;

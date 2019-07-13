@@ -1,4 +1,4 @@
-package com.rns.toastuitls.qrcodes;
+package com.reactlibrary.rns.qrcodes;
 
 import android.content.Context;
 import android.content.pm.PackageManager;

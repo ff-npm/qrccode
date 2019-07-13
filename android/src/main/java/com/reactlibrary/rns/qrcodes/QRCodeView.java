@@ -1,4 +1,4 @@
-package com.rns.toastuitls.qrcodes;
+package com.reactlibrary.rns.qrcodes;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -16,7 +16,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.RelativeLayout;
 
-import com.rns.toastuitls.R;
+import com.reactlibrary.rns.qrcode.R;
 
 /**
  * Name:
@@ -75,7 +75,7 @@ public abstract class QRCodeView extends RelativeLayout implements Camera.Previe
         mScanBoxView.init(this, attrs);
         mCameraPreview.setId(R.id.wst_qr_code_camera_preview);
         addView(mCameraPreview);
-        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(context, attrs);
+        LayoutParams layoutParams = new LayoutParams(context, attrs);
         layoutParams.addRule(RelativeLayout.ALIGN_TOP, mCameraPreview.getId());
         layoutParams.addRule(RelativeLayout.ALIGN_BOTTOM, mCameraPreview.getId());
         addView(mScanBoxView, layoutParams);

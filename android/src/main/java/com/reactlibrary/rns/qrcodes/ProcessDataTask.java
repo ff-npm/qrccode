@@ -1,4 +1,4 @@
-package com.rns.toastuitls.qrcodes;
+package com.reactlibrary.rns.qrcodes;
 
 import android.graphics.Bitmap;
 import android.hardware.Camera;
@@ -46,7 +46,7 @@ public class ProcessDataTask extends AsyncTask<Void, Void, ScanResult> {
     }
 
     void cancelTask() {
-        if (getStatus() != AsyncTask.Status.FINISHED) {
+        if (getStatus() != Status.FINISHED) {
             cancel(true);
         }
     }

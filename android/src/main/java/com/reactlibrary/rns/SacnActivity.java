@@ -1,6 +1,6 @@
-package com.rns.toastuitls;
+package com.reactlibrary.rns;
 
-import android.Manifest;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -8,12 +8,11 @@ import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.annotation.Nullable;
 import android.util.Log;
-import android.view.View;
-import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.rns.toastuitls.qrcodes.QRCodeView;
-import com.rns.toastuitls.zxings.ZXingView;
+import com.reactlibrary.rns.qrcodes.QRCodeView;
+import com.reactlibrary.rns.qrcode.R;
+import com.reactlibrary.rns.zxings.ZXingView;
 
 /**
  * Name:
@@ -33,7 +32,7 @@ public class SacnActivity extends Activity implements QRCodeView.Delegate {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sacn);
-        mZxingview = findViewById(R.id.zxingview);
+        mZxingview = (ZXingView) findViewById(R.id.zxingview);
         mZxingview.setDelegate(this);
 //        mZxingview.getScanBoxView().setOnlyDecodeScanBoxArea(true); // 仅识别扫描框中的码
 //        imgGoback.setOnClickListener(new View.OnClickListener() {

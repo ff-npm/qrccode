@@ -13,7 +13,6 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.1"
 
     defaultConfig {
         minSdkVersion 16
@@ -24,6 +23,10 @@ android {
     lintOptions {
         abortOnError false
     }
+    compileOptions {
+        sourceCompatibility = '1.8'
+        targetCompatibility = '1.8'
+    }
 }
 
 repositories {
@@ -31,6 +34,8 @@ repositories {
 }
 
 dependencies {
-    compile 'com.facebook.react:react-native:+'
+    api 'com.facebook.react:react-native:+'
+    implementation files('libs/zxing.jar')
+    implementation 'com.yanzhenjie:permission:2.0.0-rc12'
 }
   
