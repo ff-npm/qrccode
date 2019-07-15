@@ -48,5 +48,25 @@ public class RNQrcodeModule extends ReactContextBaseJavaModule {
 
     }
 
+    /**
+     * 打开相册选择图片识别二维码
+     * @param callback
+     */
+    @ReactMethod
+    public void libraryPhotoQRCodeWithCallback(Callback callback){
+        String[] perms = { Manifest.permission.READ_EXTERNAL_STORAGE};
+        AndPermission.with(reactContext).runtime().permission(perms)
+                .onGranted(permissions -> reactContext.startActivity(new Intent(reactContext, AlbumActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)))
+                .onDenied(permissions -> Toast.makeText(reactContext, "没有打开相机的权限", Toast.LENGTH_LONG).show())
+                .start();
+
+        AlbumActivity.getScanResult(new AlbumActivity.ScanResultCallBack() {
+            @Override
+            public void onScanSuccess(String codeResult) {
+                callback.invoke(codeResult);
+            }
+        });
+    }
+
 
 }

@@ -1,18 +1,25 @@
 package com.reactlibrary.rns;
 
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.reactlibrary.rns.almns.RealPathFromUriUtils;
 import com.reactlibrary.rns.qrcodes.QRCodeView;
 import com.reactlibrary.rns.qrcode.R;
 import com.reactlibrary.rns.zxings.ZXingView;
+import com.yanzhenjie.permission.AndPermission;
 
 /**
  * Name:
@@ -24,9 +31,11 @@ import com.reactlibrary.rns.zxings.ZXingView;
 public class SacnActivity extends Activity implements QRCodeView.Delegate {
 
     ZXingView mZxingview;
+    ImageView mGoBack,mAlbum,mLight;
     boolean isOpenLighted = false;
 
     public final static int CHOOSE_REQUEST = 188;
+    private static final int CODE_GALLERY_REQUEST = 0xa0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,52 +44,42 @@ public class SacnActivity extends Activity implements QRCodeView.Delegate {
         mZxingview = (ZXingView) findViewById(R.id.zxingview);
         mZxingview.setDelegate(this);
 //        mZxingview.getScanBoxView().setOnlyDecodeScanBoxArea(true); // 仅识别扫描框中的码
-//        imgGoback.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                finish();
-//            }
-//        });
 
-//        mLight.setOnClickListener(v -> {
-//            if (isOpenLighted) {
-//                mZxingview.closeFlashlight();
-//                mLight.setImageResource(R.mipmap.icon_light_white);
-//            } else {
-//                mZxingview.openFlashlight();
-//                mLight.setImageResource(R.mipmap.icon_light_red);
-//            }
-//            isOpenLighted = !isOpenLighted;
-//        });
+        mGoBack = (ImageView) findViewById(R.id.toolbar_go_back);
+        mGoBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        mAlbum= (ImageView) findViewById(R.id.toolbar_menu_img);
+        mAlbum.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String[] perms = {Manifest.permission.READ_EXTERNAL_STORAGE};
+                AndPermission.with(SacnActivity.this).runtime().permission(perms)
+                        .onGranted(permissions ->  scanAlbumQr())
+                        .onDenied(permissions -> Toast.makeText(SacnActivity.this, "没有打开相册的权限", Toast.LENGTH_LONG).show())
+                        .start();
+            }
+        });
+        mLight= (ImageView) findViewById(R.id.light);
+        mLight.setOnClickListener(v -> {
+            if (isOpenLighted) {
+                mZxingview.closeFlashlight();
+                mLight.setImageResource(R.mipmap.icon_light_white);
+            } else {
+                mZxingview.openFlashlight();
+                mLight.setImageResource(R.mipmap.icon_light_red);
+            }
+            isOpenLighted = !isOpenLighted;
+        });
+    }
 
-//        mXiangce.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                MediaSelector.create(ScanActivity.this)
-//                        .openGallery(MediaMimeType.ofImage())// 全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()
-//                        .theme(R.style.MediaAppTheme)// 主题样式设置 具体参考 values/styles   用法：R.style.picture.white.style
-//                        .maxSelectNum(1)// 最大图片选择数量
-//                        .minSelectNum(1)// 最小选择数量
-//                        .imageSpanCount(4)// 每行显示个数
-//                        .selectionMode(MediaConfig.SINGLE)// MediaConfig.MULTIPLE : MediaConfig.SINGLE)// 多选 or 单选
-//                        .previewImage(true)// 是否可预览图片
-//                        .isCamera(false)// 是否显示拍照按钮
-//                        .isZoomAnim(false)// 图片列表点击 缩放效果 默认true
-//                        .enableCrop(false)// 是否裁剪
-//                        .compress(false)// 是否压缩
-//                        .synOrAsy(true)//同步true或异步false 压缩 默认同步
-//                        .isGif(false)// 是否显示gif图片
-//                        .openClickSound(false)// 是否开启点击声音
-////                        .selectionMedia(selectList)// 是否传入已选图片
-////                        .videoMaxSecond(15)
-////                        .videoMinSecond(3)
-//                        .previewEggs(true)// 预览图片时 是否增强左右滑动图片体验(图片滑动一半即可看到上一张是否选中)
-//                        .minimumCompressSize(100)// 小于100kb的图片不压缩
-////                        .rotateEnabled(true) // 裁剪是否可旋转图片
-////                        .scaleEnabled(true)// 裁剪是否可放大缩小图片
-//                        .forResult(MediaConfig.CHOOSE_REQUEST);//结果回调onActivityResult code
-//            }
-//        });
+    private void scanAlbumQr() {
+        Intent intentFromGallery = new Intent(Intent.ACTION_PICK, null);
+        intentFromGallery.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+        startActivityForResult(intentFromGallery, CODE_GALLERY_REQUEST);
     }
 
 
@@ -150,11 +149,10 @@ public class SacnActivity extends Activity implements QRCodeView.Delegate {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         mZxingview.startSpotAndShowRect(); // 显示扫描框，并开始识别
-        if (resultCode == Activity.RESULT_OK && requestCode == CHOOSE_REQUEST) {
-//            List<LocalMedia> selectList = MediaSelector.obtainMultipleResult(data);
-//            String imgpathstr = selectList.get(0).getPath();
-//            Log.e("###lujing:", imgpathstr);
-//            mZxingview.decodeQRCode(imgpathstr);
+        if (resultCode == Activity.RESULT_OK && requestCode == CODE_GALLERY_REQUEST) {
+            String imgpathstr = RealPathFromUriUtils.getRealPathFromUri(this, data.getData());
+            Log.e("###imgpathstr",imgpathstr);
+            mZxingview.decodeQRCode(imgpathstr);
         }
     }
 

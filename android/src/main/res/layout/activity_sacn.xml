@@ -40,4 +40,47 @@
         app:qrcv_toolbarHeight="56dp"
         app:qrcv_topOffset="30dp" />
 
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:orientation="horizontal"
+        android:background="#66000000"
+        >
+
+        <ImageView
+            android:id="@+id/toolbar_go_back"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:padding="15dp"
+            android:src="@mipmap/icon_goback_white" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="扫一扫"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:id="@+id/toolbar_menu_img"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:padding="15dp"
+            android:src="@mipmap/icon_xiangce"
+            />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/light"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="60dp"
+        android:padding="10dp"
+        android:src="@mipmap/icon_light_white" />
+
 </RelativeLayout>
