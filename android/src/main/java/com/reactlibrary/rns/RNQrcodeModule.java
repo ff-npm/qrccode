@@ -69,4 +69,11 @@ public class RNQrcodeModule extends ReactContextBaseJavaModule {
     }
 
 
+
+    @ReactMethod
+    public void flashSwitch(int lightOn){
+        SacnActivity.swithLightStatue(lightOn);
+    }
+
+
 }

@@ -30,12 +30,16 @@ import com.yanzhenjie.permission.AndPermission;
  */
 public class SacnActivity extends Activity implements QRCodeView.Delegate {
 
-    ZXingView mZxingview;
-    ImageView mGoBack,mAlbum,mLight;
-    boolean isOpenLighted = false;
+    static ZXingView mZxingview;
+    ImageView mGoBack;
+    ImageView mAlbum;
+    static ImageView mLight;
+    static boolean isOpenLighted = false;
 
     public final static int CHOOSE_REQUEST = 188;
     private static final int CODE_GALLERY_REQUEST = 0xa0;
+
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -158,5 +162,23 @@ public class SacnActivity extends Activity implements QRCodeView.Delegate {
 
     public interface ScanResultCallBack {
         void onScanSuccess(String codeResult);
+    }
+
+
+    public static void swithLightStatue(int lightOn) {
+        if (lightOn==0){
+            isOpenLighted=false;
+        }else {
+            isOpenLighted=true;
+        }
+
+        if (isOpenLighted) {
+            mZxingview.closeFlashlight();
+            mLight.setImageResource(R.mipmap.icon_light_white);
+        } else {
+            mZxingview.openFlashlight();
+            mLight.setImageResource(R.mipmap.icon_light_red);
+        }
+        isOpenLighted = !isOpenLighted;
     }
 }
