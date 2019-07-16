@@ -39,6 +39,7 @@ public class RNQrViewModule extends ReactContextBaseJavaModule {
             @Override
             public void onScanSuccess(String codeResult) {
                 callback.invoke(codeResult);
+                
             }
         });
 
