@@ -73,6 +73,11 @@ public class RNQrcodeManager extends SimpleViewManager<RnQrCodeView> implements 
 
     }
 
+    @Override
+    public void onDropViewInstance(@Nonnull RnQrCodeView view) {
+        super.onDropViewInstance(view);
+        view.getZxView().onDestroy(); // 销毁二维码扫描控件
+    }
 
     @Override
     public void onScanQRCodeSuccess(String result) {
