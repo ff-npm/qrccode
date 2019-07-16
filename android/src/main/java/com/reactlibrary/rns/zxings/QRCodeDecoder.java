@@ -26,7 +26,7 @@ import java.util.Map;
  * Outline:
  */
 public class QRCodeDecoder {
-    static final Map<DecodeHintType, Object> ALL_HINT_MAP = new EnumMap<>(DecodeHintType.class);
+    public static final Map<DecodeHintType, Object> ALL_HINT_MAP = new EnumMap<>(DecodeHintType.class);
 
     static {
         List<BarcodeFormat> allFormatList = new ArrayList<>();
@@ -58,7 +58,7 @@ public class QRCodeDecoder {
         ALL_HINT_MAP.put(DecodeHintType.CHARACTER_SET, "utf-8");
     }
 
-    static final Map<DecodeHintType, Object> ONE_DIMENSION_HINT_MAP = new EnumMap<>(DecodeHintType.class);
+    public static final Map<DecodeHintType, Object> ONE_DIMENSION_HINT_MAP = new EnumMap<>(DecodeHintType.class);
 
     static {
         List<BarcodeFormat> oneDimenFormatList = new ArrayList<>();
@@ -81,7 +81,7 @@ public class QRCodeDecoder {
         ONE_DIMENSION_HINT_MAP.put(DecodeHintType.CHARACTER_SET, "utf-8");
     }
 
-    static final Map<DecodeHintType, Object> TWO_DIMENSION_HINT_MAP = new EnumMap<>(DecodeHintType.class);
+    public static final Map<DecodeHintType, Object> TWO_DIMENSION_HINT_MAP = new EnumMap<>(DecodeHintType.class);
 
     static {
         List<BarcodeFormat> twoDimenFormatList = new ArrayList<>();
@@ -95,7 +95,7 @@ public class QRCodeDecoder {
         TWO_DIMENSION_HINT_MAP.put(DecodeHintType.CHARACTER_SET, "utf-8");
     }
 
-    static final Map<DecodeHintType, Object> QR_CODE_HINT_MAP = new EnumMap<>(DecodeHintType.class);
+    public static final Map<DecodeHintType, Object> QR_CODE_HINT_MAP = new EnumMap<>(DecodeHintType.class);
 
     static {
         QR_CODE_HINT_MAP.put(DecodeHintType.POSSIBLE_FORMATS, Collections.singletonList(BarcodeFormat.QR_CODE));
@@ -103,7 +103,7 @@ public class QRCodeDecoder {
         QR_CODE_HINT_MAP.put(DecodeHintType.CHARACTER_SET, "utf-8");
     }
 
-    static final Map<DecodeHintType, Object> CODE_128_HINT_MAP = new EnumMap<>(DecodeHintType.class);
+    public static final Map<DecodeHintType, Object> CODE_128_HINT_MAP = new EnumMap<>(DecodeHintType.class);
 
     static {
         CODE_128_HINT_MAP.put(DecodeHintType.POSSIBLE_FORMATS, Collections.singletonList(BarcodeFormat.CODE_128));
@@ -111,7 +111,7 @@ public class QRCodeDecoder {
         CODE_128_HINT_MAP.put(DecodeHintType.CHARACTER_SET, "utf-8");
     }
 
-    static final Map<DecodeHintType, Object> EAN_13_HINT_MAP = new EnumMap<>(DecodeHintType.class);
+    public static final Map<DecodeHintType, Object> EAN_13_HINT_MAP = new EnumMap<>(DecodeHintType.class);
 
     static {
         EAN_13_HINT_MAP.put(DecodeHintType.POSSIBLE_FORMATS, Collections.singletonList(BarcodeFormat.EAN_13));
@@ -119,7 +119,7 @@ public class QRCodeDecoder {
         EAN_13_HINT_MAP.put(DecodeHintType.CHARACTER_SET, "utf-8");
     }
 
-    static final Map<DecodeHintType, Object> HIGH_FREQUENCY_HINT_MAP = new EnumMap<>(DecodeHintType.class);
+    public static final Map<DecodeHintType, Object> HIGH_FREQUENCY_HINT_MAP = new EnumMap<>(DecodeHintType.class);
 
     static {
         List<BarcodeFormat> highFrequencyFormatList = new ArrayList<>();

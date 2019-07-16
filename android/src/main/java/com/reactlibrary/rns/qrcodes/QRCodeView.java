@@ -62,6 +62,8 @@ public abstract class QRCodeView extends RelativeLayout implements Camera.Previe
         setupReader();
     }
 
+
+
     private void initView(Context context, AttributeSet attrs) {
         mCameraPreview = new CameraPreview(context);
         mCameraPreview.setDelegate(new CameraPreview.Delegate() {
@@ -605,6 +607,7 @@ public abstract class QRCodeView extends RelativeLayout implements Camera.Previe
 
         return result;
     }
+
 
     public interface Delegate {
         /**

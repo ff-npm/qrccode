@@ -22,7 +22,7 @@ public class RNQrViewModule extends ReactContextBaseJavaModule {
     public RNQrViewModule(@Nonnull ReactApplicationContext reactContext) {
         super(reactContext);
         this.reactContext = reactContext;
-        Log.e("###","初始化RNQrViewModule");
+        Log.e("###", "初始化RNQrViewModule");
     }
 
     @Nonnull
@@ -34,6 +34,14 @@ public class RNQrViewModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void initScanQRCodeWithCallback(Callback callback) {
-        callback.invoke("jjjjjj");
+
+        RNQrcodeManager.getScanResult(new RNQrcodeManager.ScanResultCallBack() {
+            @Override
+            public void onScanSuccess(String codeResult) {
+                callback.invoke(codeResult);
+            }
+        });
+
+
     }
 }

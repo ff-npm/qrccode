@@ -141,6 +141,9 @@ public class ScanBoxView extends View {
         mQRCodeView = qrCodeView;
 
         TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.QRCodeView);
+
+
+
         final int count = typedArray.getIndexCount();
         for (int i = 0; i < count; i++) {
             initCustomAttr(typedArray.getIndex(i), typedArray);
