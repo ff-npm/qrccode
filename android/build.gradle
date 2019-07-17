@@ -37,5 +37,6 @@ dependencies {
     api 'com.facebook.react:react-native:+'
     implementation files('libs/zxing.jar')
     implementation 'com.yanzhenjie:permission:2.0.0-rc12'
+    api 'org.greenrobot:eventbus:3.1.1'
 }
   

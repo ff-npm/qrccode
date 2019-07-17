@@ -12,6 +12,9 @@ import com.reactlibrary.rns.qrcodes.QRCodeView;
 import com.reactlibrary.rns.rnViews.RnQrCodeView;
 import com.reactlibrary.rns.zxings.ZXingView;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -32,6 +35,8 @@ public class RNQrcodeManager extends SimpleViewManager<RnQrCodeView> implements 
     ZXingView zXingView;
 
 
+
+
     @Nonnull
     @Override
     public String getName() {
@@ -43,9 +48,9 @@ public class RNQrcodeManager extends SimpleViewManager<RnQrCodeView> implements 
     @Override
     protected RnQrCodeView createViewInstance(@Nonnull ThemedReactContext reactContext) {
         this.reactContext = reactContext;
-//        if (!EventBus.getDefault().isRegistered(this)) {
-//            EventBus.getDefault().register(this);
-//        }
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
         RnQrCodeView rnQrCodeView = new RnQrCodeView(reactContext);
         zXingView = rnQrCodeView.getZxView();
         zXingView.setDelegate(this);
@@ -75,13 +80,18 @@ public class RNQrcodeManager extends SimpleViewManager<RnQrCodeView> implements 
 
     @Override
     public void onDropViewInstance(@Nonnull RnQrCodeView view) {
-        super.onDropViewInstance(view);
+        view.getZxView().closeFlashlight();
         view.getZxView().onDestroy(); // 销毁二维码扫描控件
+        EventBus.getDefault().unregister(this);
+        super.onDropViewInstance(view);
     }
 
     @Override
     public void onScanQRCodeSuccess(String result) {
         scanResultCallBack.onScanSuccess(result);
+        if (zXingView!=null){
+            zXingView.startSpot();
+        }
     }
 
     @Override
@@ -91,7 +101,6 @@ public class RNQrcodeManager extends SimpleViewManager<RnQrCodeView> implements 
 
     @Override
     public void onScanQRCodeOpenCameraError() {
-
     }
 
 
@@ -104,4 +113,25 @@ public class RNQrcodeManager extends SimpleViewManager<RnQrCodeView> implements 
     public interface ScanResultCallBack {
         void onScanSuccess(String codeResult);
     }
+
+    static boolean isOpenLighted = false;
+    public static void swithLightStatue(int lightOn) {
+
+    }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(LightEventBean event) {
+        if (event.getLightOn()==0){
+            isOpenLighted=false;
+        }else {
+            isOpenLighted=true;
+        }
+
+        if (isOpenLighted) {
+            zXingView.closeFlashlight();
+        } else {
+            zXingView.openFlashlight();
+        }
+        isOpenLighted = !isOpenLighted;
+    }
+
 }

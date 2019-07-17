@@ -11,6 +11,7 @@ import android.os.Vibrator;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -39,12 +40,11 @@ public class SacnActivity extends Activity implements QRCodeView.Delegate {
     public final static int CHOOSE_REQUEST = 188;
     private static final int CODE_GALLERY_REQUEST = 0xa0;
 
-
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sacn);
+        Log.e("##扫描界面oncreat",System.currentTimeMillis()+"");
         mZxingview = (ZXingView) findViewById(R.id.zxingview);
         mZxingview.setDelegate(this);
 //        mZxingview.getScanBoxView().setOnlyDecodeScanBoxArea(true); // 仅识别扫描框中的码
@@ -53,6 +53,7 @@ public class SacnActivity extends Activity implements QRCodeView.Delegate {
         mGoBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mZxingview.closeFlashlight();
                 finish();
             }
         });
@@ -90,6 +91,7 @@ public class SacnActivity extends Activity implements QRCodeView.Delegate {
     @Override
     protected void onStart() {
         super.onStart();
+        Log.e("##扫描界面onStart",System.currentTimeMillis()+"");
         mZxingview.startCamera(); // 打开后置摄像头开始预览，但是并未开始识别
         mZxingview.startSpotAndShowRect(); // 显示扫描框，并开始识别
     }
@@ -101,7 +103,18 @@ public class SacnActivity extends Activity implements QRCodeView.Delegate {
     }
 
     @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode==KeyEvent.KEYCODE_BACK){
+           mZxingview.closeFlashlight();
+           finish();
+        }
+        return true;
+    }
+
+    @Override
     protected void onDestroy() {
+        Log.e("##isOpenLighted",isOpenLighted+"");
+        mZxingview.closeFlashlight();
         mZxingview.onDestroy(); // 销毁二维码扫描控件
         super.onDestroy();
     }
@@ -171,7 +184,6 @@ public class SacnActivity extends Activity implements QRCodeView.Delegate {
         }else {
             isOpenLighted=true;
         }
-
         if (isOpenLighted) {
             mZxingview.closeFlashlight();
             mLight.setImageResource(R.mipmap.icon_light_white);

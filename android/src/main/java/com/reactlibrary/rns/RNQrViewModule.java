@@ -7,6 +7,8 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 
+import org.greenrobot.eventbus.EventBus;
+
 import javax.annotation.Nonnull;
 
 /**
@@ -43,6 +45,11 @@ public class RNQrViewModule extends ReactContextBaseJavaModule {
             }
         });
 
+    }
 
+    @ReactMethod
+    public void flashSwitch(int lightOn){
+//        RNQrcodeManager.swithLightStatue(lightOn);
+        EventBus.getDefault().post(new LightEventBean(lightOn));
     }
 }

@@ -34,6 +34,8 @@ public class RNQrcodeModule extends ReactContextBaseJavaModule {
      */
     @ReactMethod
     public void nativeQRCodeWithCallback(Callback callback) {
+        Log.e("##刚接到事件",System.currentTimeMillis()+"");
+
         String[] perms = {Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE};
         AndPermission.with(reactContext).runtime().permission(perms)
                 .onGranted(permissions -> reactContext.startActivity(new Intent(reactContext, SacnActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)))
