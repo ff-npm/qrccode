@@ -1,9 +1,12 @@
 package com.reactlibrary.rns;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.Xml;
+import android.widget.Toast;
 
 import com.facebook.react.uimanager.SimpleViewManager;
 import com.facebook.react.uimanager.ThemedReactContext;
@@ -11,6 +14,7 @@ import com.reactlibrary.rns.qrcode.R;
 import com.reactlibrary.rns.qrcodes.QRCodeView;
 import com.reactlibrary.rns.rnViews.RnQrCodeView;
 import com.reactlibrary.rns.zxings.ZXingView;
+import com.yanzhenjie.permission.AndPermission;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -33,8 +37,7 @@ public class RNQrcodeManager extends SimpleViewManager<RnQrCodeView> implements 
 
     ThemedReactContext reactContext;
     ZXingView zXingView;
-
-
+    RnQrCodeView rnQrCodeView;
 
 
     @Nonnull
@@ -51,11 +54,27 @@ public class RNQrcodeManager extends SimpleViewManager<RnQrCodeView> implements 
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
         }
-        RnQrCodeView rnQrCodeView = new RnQrCodeView(reactContext);
-        zXingView = rnQrCodeView.getZxView();
-        zXingView.setDelegate(this);
-        zXingView.startCamera();
-        zXingView.startSpotAndShowRect();
+
+        String[] perms = {Manifest.permission.CAMERA};
+//        String[] perms = {Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE};
+        AndPermission.with(reactContext).runtime().permission(perms)
+                .onGranted(permissions -> {
+                    rnQrCodeView = new RnQrCodeView(reactContext);
+                    zXingView = rnQrCodeView.getZxView();
+                    zXingView.setDelegate(this);
+                    zXingView.startCamera();
+                    zXingView.startSpotAndShowRect();
+                })
+                .onDenied(permissions -> {
+//                    {code: int, msg: string, resp: string}
+//                    code:  200=成功,201 = 没相册权限,202=没相机权限,203=扫码无结果
+//                    msg: 扫码结果描述（非扫码结果）
+//                    resp：是个字符串,code=200的时候返的就是扫码结果串,不是200的时候是个空字符串
+                    scanResultCallBack.onScanSuccess(202,"NO_CAMERA","");
+                })
+                .start();
+
+
         return rnQrCodeView;
     }
 
@@ -88,8 +107,12 @@ public class RNQrcodeManager extends SimpleViewManager<RnQrCodeView> implements 
 
     @Override
     public void onScanQRCodeSuccess(String result) {
-        scanResultCallBack.onScanSuccess(result);
-        if (zXingView!=null){
+        //                    {code: int, msg: string, resp: string}
+//                    code:  200=成功,201 = 没相册权限,202=没相机权限,203=扫码无结果
+//                    msg: 扫码结果描述（非扫码结果）
+//                    resp：是个字符串,code=200的时候返的就是扫码结果串,不是200的时候是个空字符串
+        scanResultCallBack.onScanSuccess(200, "SUCCESS", result);
+        if (zXingView != null) {
             zXingView.startSpot();
         }
     }
@@ -110,20 +133,26 @@ public class RNQrcodeManager extends SimpleViewManager<RnQrCodeView> implements 
         RNQrcodeManager.scanResultCallBack = scanResultCallBack;
     }
 
+    //                    {code: int, msg: string, resp: string}
+//                    code:  200=成功,201 = 没相册权限,202=没相机权限,203=扫码无结果
+//                    msg: 扫码结果描述（非扫码结果）
+//                    resp：是个字符串,code=200的时候返的就是扫码结果串,不是200的时候是个空字符串
     public interface ScanResultCallBack {
-        void onScanSuccess(String codeResult);
+        void onScanSuccess(int code, String msg, String resp);
     }
 
     static boolean isOpenLighted = false;
+
     public static void swithLightStatue(int lightOn) {
 
     }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(LightEventBean event) {
-        if (event.getLightOn()==0){
-            isOpenLighted=false;
-        }else {
-            isOpenLighted=true;
+        if (event.getLightOn() == 0) {
+            isOpenLighted = false;
+        } else {
+            isOpenLighted = true;
         }
 
         if (isOpenLighted) {
