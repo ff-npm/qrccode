@@ -68,11 +68,15 @@ public class AlbumActivity extends Activity implements QRCodeView.Delegate {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        Log.e("###fanhui",requestCode+"requestCode"+resultCode+"requestCode"+data+"data");
         mZxingview.startSpotAndShowRect(); // 显示扫描框，并开始识别
         if (resultCode == Activity.RESULT_OK && requestCode == CODE_GALLERY_REQUEST) {
             String imgpathstr = RealPathFromUriUtils.getRealPathFromUri(this, data.getData());
             Log.e("###imgpathstr", imgpathstr);
             mZxingview.decodeQRCode(imgpathstr);
+        }else if (resultCode==0){
+            AlbumActivity.this.finish();
         }
     }
 
@@ -86,7 +90,7 @@ public class AlbumActivity extends Activity implements QRCodeView.Delegate {
             result = "";
         }
         Log.e("###", "扫描结果" + result);
-        scanResultCallBack.onScanSuccess(result);
+        scanResultCallBack.onScanSuccess(200, "SUCCESS", result);
         finish();
     }
 
@@ -108,7 +112,4 @@ public class AlbumActivity extends Activity implements QRCodeView.Delegate {
         AlbumActivity.scanResultCallBack = scanResultCallBack;
     }
 
-    public interface ScanResultCallBack {
-        void onScanSuccess(String codeResult);
-    }
 }

@@ -64,7 +64,10 @@ public class SacnActivity extends Activity implements QRCodeView.Delegate {
                 String[] perms = {Manifest.permission.READ_EXTERNAL_STORAGE};
                 AndPermission.with(SacnActivity.this).runtime().permission(perms)
                         .onGranted(permissions ->  scanAlbumQr())
-                        .onDenied(permissions -> Toast.makeText(SacnActivity.this, "没有打开相册的权限", Toast.LENGTH_LONG).show())
+                        .onDenied(permissions ->  {
+                            scanResultCallBack.onScanSuccess(201, "NO_ALBUM", "");
+
+                        })
                         .start();
             }
         });
@@ -128,7 +131,7 @@ public class SacnActivity extends Activity implements QRCodeView.Delegate {
             result = "";
         }
         Log.e("###", "扫描结果" + result);
-        scanResultCallBack.onScanSuccess(result);
+        scanResultCallBack.onScanSuccess(200, "SUCCESS", result);
         finish();
     }
 
@@ -173,9 +176,6 @@ public class SacnActivity extends Activity implements QRCodeView.Delegate {
         }
     }
 
-    public interface ScanResultCallBack {
-        void onScanSuccess(String codeResult);
-    }
 
 
     public static void swithLightStatue(int lightOn) {

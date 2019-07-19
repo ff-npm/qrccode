@@ -38,7 +38,7 @@ public class RNQrViewModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void initScanQRCodeWithCallback(Callback callback) {
-        RNQrcodeManager.getScanResult(new RNQrcodeManager.ScanResultCallBack() {
+        RNQrcodeManager.getScanResult(new ScanResultCallBack() {
             @Override
             public void onScanSuccess(int code, String msg, String resp) {
                 //                    {code: int, msg: string, resp: string}
