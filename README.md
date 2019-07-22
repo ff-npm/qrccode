@@ -78,4 +78,4 @@ RNQrcode;
         msg: 扫码结果描述（非扫码结果）
         resp：是个字符串,code=200的时候返的就是扫码结果串,不是200的时候是个空字符串
 ------------
-  
+demo： https://github.com/ff-npm/ff-rn-npm-demo
