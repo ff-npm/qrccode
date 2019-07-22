@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface DYQRCodeNativeViewController : UIViewController
 
-@property(nonatomic,copy)void(^scanQRCodeResultBlock)(NSString *result);
+@property(nonatomic,copy)void(^scanQRCodeResultBlock)(NSDictionary *result);
 
 @end
 

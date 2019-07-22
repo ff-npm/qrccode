@@ -7,13 +7,13 @@
 {
     return dispatch_get_main_queue();
 }
-RCT_EXPORT_MODULE(RNQRCode)
+RCT_EXPORT_MODULE(QRCodeModule)
 
 #pragma mark -  原生扫描controller
 RCT_EXPORT_METHOD(nativeQRCodeWithCallback:(RCTResponseSenderBlock)callback){
     dispatch_async(dispatch_get_main_queue(), ^{
         DYQRCodeNativeViewController *qrcVC = [DYQRCodeNativeViewController new];
-        qrcVC.scanQRCodeResultBlock = ^(NSString * _Nonnull result) {
+        qrcVC.scanQRCodeResultBlock = ^(NSDictionary * _Nonnull result) {
             callback(@[result]);
         };
         if([DYQRCodeLogicHelper findCurrentViewController].navigationController.viewControllers.count != 0) {
@@ -46,19 +46,19 @@ RCT_EXPORT_METHOD(imageQRCodeWithFilePath:(NSString *)filePath callback:(RCTResp
 #pragma mark -  相册提取二维码信息
 RCT_EXPORT_METHOD(libraryPhotoQRCodeWithCallback:(RCTResponseSenderBlock)callback){
     dispatch_async(dispatch_get_main_queue(), ^{
-        [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
-            if (status == PHAuthorizationStatusAuthorized) {
-                DYQRCodeAbility *ability = [DYQRCodeAbility shareAbility];
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [ability libraryPhotoQRCode];
-                });
-                ability.abilityScanQRCodeBlock = ^(NSString * _Nonnull result) {
+        DYQRCodeAbility *ability = [DYQRCodeAbility shareAbility];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            BOOL hasAuth = [ability libraryPhotoQRCode];
+            if (hasAuth == YES) {
+                ability.abilityScanQRCodeBlock = ^(NSDictionary * _Nonnull result) {
                     callback(@[result]);
                 };
-            }else if (status == PHAuthorizationStatusDenied) {
-                NSLog(@"用户设置为关闭权限");
+            }else {
+                callback(@[@{@"code":@"201",@"msg":@"no Auth",@"resp":@""}]);
             }
-        }];
+            
+        });
+        
     });
 }
 
@@ -70,6 +70,13 @@ RCT_EXPORT_METHOD(flashSwitch:(int)open){
     });
 }
 
+#pragma mark - 跳转权限
+RCT_EXPORT_METHOD(authJump){
+    dispatch_async(dispatch_get_main_queue(), ^{
+        DYQRCodeAbility *ability = [DYQRCodeAbility shareAbility];
+        [ability authJump];
+    });
+}
 
 @end
   

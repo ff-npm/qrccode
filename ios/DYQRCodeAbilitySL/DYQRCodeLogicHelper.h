@@ -24,6 +24,11 @@ NS_ASSUME_NONNULL_BEGIN
 // 相机权限
 +(BOOL)cameraAuth;
 
+// 相册权限
++(BOOL)libraryAuth;
+
+
+
 @end
 
 NS_ASSUME_NONNULL_END

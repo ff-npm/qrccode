@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface DYQRCodeAbility : NSObject
 
-@property(nonatomic,copy)void(^abilityScanQRCodeBlock)(NSString *result);
+@property(nonatomic,copy)void(^abilityScanQRCodeBlock)(NSDictionary *result);
 @property(nonatomic,copy)void(^abilityLightBrightnessBlock)(CGFloat brightness);
 
 // 初始化
@@ -30,16 +30,19 @@ NS_ASSUME_NONNULL_BEGIN
 -(NSString *)imageQRCodeWithFilePath:(NSString *)filePath;
 
 // 相册提取二维码信息
--(void)libraryPhotoQRCode;
+-(BOOL)libraryPhotoQRCode;
 
 // 开启扫描提取二维码信息
-- (void)initScanQRCodeWithSuperView:(UIView *)superView;
+- (BOOL)initScanQRCodeWithSuperView:(UIView *)superView;
 
 // 扫描功能开关
 - (void)scanMessionSwitch:(bool)open;
 
 // 闪光灯开关
 - (void)flashSwitch:(bool)open;
+
+// 跳转权限
+-(void)authJump;
 
 @end
 

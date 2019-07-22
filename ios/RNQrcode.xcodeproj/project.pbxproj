@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A5A49DF722D8349000C7883D /* DYQRCodeAbility.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A5A49DF322D8349000C7883D /* DYQRCodeAbility.a */; };
 		A5A49E0722D8352D00C7883D /* DYAVCaptureVideoPreviewViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A5A49E0622D8352D00C7883D /* DYAVCaptureVideoPreviewViewManager.m */; };
+		A5C8756F22DF286E00583DD5 /* DYQRCodeAbility.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A5C8756B22DF286E00583DD5 /* DYQRCodeAbility.a */; };
 		B3E7B58A1CC2AC0600A0062D /* RNQrcode.m in Sources */ = {isa = PBXBuildFile; fileRef = B3E7B5891CC2AC0600A0062D /* RNQrcode.m */; };
 /* End PBXBuildFile section */
 
@@ -26,15 +26,15 @@
 
 /* Begin PBXFileReference section */
 		134814201AA4EA6300B7C361 /* libRNQrcode.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRNQrcode.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		A5A49DF022D8349000C7883D /* DYScanAnimationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DYScanAnimationView.h; sourceTree = "<group>"; };
-		A5A49DF122D8349000C7883D /* DYQRCodeLogicHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DYQRCodeLogicHelper.h; sourceTree = "<group>"; };
-		A5A49DF222D8349000C7883D /* DYQRCodeAbility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DYQRCodeAbility.h; sourceTree = "<group>"; };
-		A5A49DF322D8349000C7883D /* DYQRCodeAbility.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = DYQRCodeAbility.a; sourceTree = "<group>"; };
-		A5A49DF422D8349000C7883D /* DYQRCodeNativeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DYQRCodeNativeViewController.h; sourceTree = "<group>"; };
-		A5A49DF522D8349000C7883D /* DYPreviewView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DYPreviewView.h; sourceTree = "<group>"; };
-		A5A49DF622D8349000C7883D /* QRCodeBundle.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = QRCodeBundle.bundle; sourceTree = "<group>"; };
 		A5A49E0522D8352D00C7883D /* DYAVCaptureVideoPreviewViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DYAVCaptureVideoPreviewViewManager.h; sourceTree = "<group>"; };
 		A5A49E0622D8352D00C7883D /* DYAVCaptureVideoPreviewViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DYAVCaptureVideoPreviewViewManager.m; sourceTree = "<group>"; };
+		A5C8756822DF286E00583DD5 /* DYScanAnimationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DYScanAnimationView.h; sourceTree = "<group>"; };
+		A5C8756922DF286E00583DD5 /* DYQRCodeLogicHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DYQRCodeLogicHelper.h; sourceTree = "<group>"; };
+		A5C8756A22DF286E00583DD5 /* DYQRCodeAbility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DYQRCodeAbility.h; sourceTree = "<group>"; };
+		A5C8756B22DF286E00583DD5 /* DYQRCodeAbility.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = DYQRCodeAbility.a; sourceTree = "<group>"; };
+		A5C8756C22DF286E00583DD5 /* DYQRCodeNativeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DYQRCodeNativeViewController.h; sourceTree = "<group>"; };
+		A5C8756D22DF286E00583DD5 /* DYPreviewView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DYPreviewView.h; sourceTree = "<group>"; };
+		A5C8756E22DF286E00583DD5 /* QRCodeBundle.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = QRCodeBundle.bundle; sourceTree = "<group>"; };
 		B3E7B5881CC2AC0600A0062D /* RNQrcode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNQrcode.h; sourceTree = "<group>"; };
 		B3E7B5891CC2AC0600A0062D /* RNQrcode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNQrcode.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -44,7 +44,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A5A49DF722D8349000C7883D /* DYQRCodeAbility.a in Frameworks */,
+				A5C8756F22DF286E00583DD5 /* DYQRCodeAbility.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -66,21 +66,21 @@
 				B3E7B5891CC2AC0600A0062D /* RNQrcode.m */,
 				A5A49E0522D8352D00C7883D /* DYAVCaptureVideoPreviewViewManager.h */,
 				A5A49E0622D8352D00C7883D /* DYAVCaptureVideoPreviewViewManager.m */,
-				A5A49DEF22D8349000C7883D /* DYQRCodeAbilitySL */,
+				A5C8756722DF286E00583DD5 /* DYQRCodeAbilitySL */,
 				134814211AA4EA7D00B7C361 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		A5A49DEF22D8349000C7883D /* DYQRCodeAbilitySL */ = {
+		A5C8756722DF286E00583DD5 /* DYQRCodeAbilitySL */ = {
 			isa = PBXGroup;
 			children = (
-				A5A49DF022D8349000C7883D /* DYScanAnimationView.h */,
-				A5A49DF122D8349000C7883D /* DYQRCodeLogicHelper.h */,
-				A5A49DF222D8349000C7883D /* DYQRCodeAbility.h */,
-				A5A49DF322D8349000C7883D /* DYQRCodeAbility.a */,
-				A5A49DF422D8349000C7883D /* DYQRCodeNativeViewController.h */,
-				A5A49DF522D8349000C7883D /* DYPreviewView.h */,
-				A5A49DF622D8349000C7883D /* QRCodeBundle.bundle */,
+				A5C8756822DF286E00583DD5 /* DYScanAnimationView.h */,
+				A5C8756922DF286E00583DD5 /* DYQRCodeLogicHelper.h */,
+				A5C8756A22DF286E00583DD5 /* DYQRCodeAbility.h */,
+				A5C8756B22DF286E00583DD5 /* DYQRCodeAbility.a */,
+				A5C8756C22DF286E00583DD5 /* DYQRCodeNativeViewController.h */,
+				A5C8756D22DF286E00583DD5 /* DYPreviewView.h */,
+				A5C8756E22DF286E00583DD5 /* QRCodeBundle.bundle */,
 			);
 			path = DYQRCodeAbilitySL;
 			sourceTree = "<group>";
