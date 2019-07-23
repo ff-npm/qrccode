@@ -7,7 +7,7 @@
 {
     return dispatch_get_main_queue();
 }
-RCT_EXPORT_MODULE(QRCodeModule)
+RCT_EXPORT_MODULE(RNQRCode)
 
 #pragma mark -  原生扫描controller
 RCT_EXPORT_METHOD(nativeQRCodeWithCallback:(RCTResponseSenderBlock)callback){
