@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.reactlibrary.rns.qrcode">
+    package="com.ffomall.rns.qrcode">
 
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.CAMERA" />
@@ -11,10 +11,10 @@
 
     <application>
         <activity
-            android:name="com.reactlibrary.rns.SacnActivity"
+            android:name="com.ffomall.rns.SacnActivity"
             android:screenOrientation="portrait" />
 
-        <activity android:name="com.reactlibrary.rns.AlbumActivity"
+        <activity android:name="com.ffomall.rns.AlbumActivity"
             android:theme="@style/AlbumTheme"/>
     </application>
 </manifest>
